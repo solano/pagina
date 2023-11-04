@@ -71,7 +71,7 @@ pag_name
 pag_make_name(char* name)
 {
 	size_t len = strlen(name);
-	pag_name newname = {malloc(sizeof(char) * len)};
+	pag_name newname = {calloc(len+1, 1)};
 	strncpy(newname.str, name, len);
 	return newname;
 }
@@ -458,17 +458,3 @@ pag_ref2obj(pag_ref ref)
 	obj->val.ref = ref;
 	return obj;
 }
-
-/**** document semantics and file structure: methods ****/
-int		pag_pagetree_nbkids(pag_pagetree *tree);
-int		pag_pagetree_nbpages(pag_pagetree *tree);
-pag_page	*pag_pagetree_get_kid(pag_pagetree *tree, int index);
-pag_page	*pag_pagetree_get_page(pag_pagetree *tree, int index);
-pag_pagetree	*pag_get_pagetree(pag_document *doc);
-pag_pagetree	*pag_make_pagetree(pag_page *pages[]);
-pag_object	*pag_get_indirect_obj(pag_document *doc, unsigned int id,
-					unsigned int gen);
-pag_object	*pag_get_latest_indirect_obj(pag_document *doc,
-					unsigned int id);
-int		pag_insert_objects(pag_object *objs[], pag_document *doc);
-pag_document	*pag_make_document(pag_pdf_version version, pag_object *objs[]);

@@ -28,6 +28,7 @@ pag_get_root(pag_document *doc)
 	pag_dict *tdict = doc->trailer_dicts->val->val.dict;
 
 	pag_object *obj = pag_dict_get(tdict, pag_make_name("Root"));
+
 	if (obj==NULL || obj->type != PAG_REF)
 		return NULL;
 	
@@ -49,8 +50,19 @@ pag_get_info(pag_document *doc)
 pag_object *
 pag_get_indirect_obj(pag_document *doc, pag_ref ref)
 {
+	if (doc==NULL)
+		return NULL;
 	/* ignore generation, just look for id */
-	return doc->objs[ref.id-1].obj; /*FIXME: not correct*/
+	return doc->objs[ref.id-1].obj;
+}
+
+void
+pag_set_object(pag_document *doc, pag_ref ref)
+{
+	if (doc==NULL || ref.obj==NULL)
+		return;
+	
+	doc->objs[ref.id-1].obj = ref.obj;
 }
 
 pag_object *
@@ -62,21 +74,4 @@ pag_make_info_dict(void)
 	pag_dict_set(dict, name, pag_string2obj(str));
 
 	return pag_dict2obj(dict);
-}
-
-pag_object *
-pag_get_object(pag_document *doc, pag_ref ref)
-{
-	if (doc==NULL)
-		return NULL;
-	return doc->objs[ref.id-1].obj;
-}
-
-void
-pag_set_object(pag_document *doc, pag_ref ref)
-{
-	if (doc==NULL || ref.obj==NULL)
-		return;
-	
-	doc->objs[ref.id-1].obj = ref.obj;
 }

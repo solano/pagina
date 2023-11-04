@@ -177,11 +177,8 @@ pag_pagetree	*pag_make_pagetree(pag_page *pages[]);
 pag_ref		*pag_get_root(pag_document *doc);
 pag_ref		*pag_get_info(pag_document *doc);
 pag_object	*pag_make_info_dict(void);
-pag_object	*pag_get_object(pag_document *doc, pag_ref ref);
-void		pag_set_object(pag_document *doc, pag_ref ref);
 pag_object	*pag_get_indirect_obj(pag_document *doc, pag_ref ref);
-pag_object	*pag_get_latest_indirect_obj(pag_document *doc,
-					unsigned int id);
+void		pag_set_object(pag_document *doc, pag_ref ref);
 int		pag_insert_objects(pag_object *objs[], pag_document *doc);
 pag_document	*pag_make_document(pag_pdf_version version, pag_object *objs[]);
 
