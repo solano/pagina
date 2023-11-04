@@ -1311,7 +1311,7 @@ pag_parse_file(FILE *file)
 		res = parse_indirect_object();
 		if (res->type != INDIRECT_OBJ)
 			return NULL;
-		doc->objs[i] = res->val.ref;
+		doc->objs[res->val.ref.id-1] = res->val.ref;
 	}
 
 	return doc;

@@ -94,7 +94,14 @@ pag_repl(pag_document *doc, FILE *output)
 			printf("len = %d\n", doc->len);
 		}
 		else if (cmd[0]=='w') {
-			pag_write_document(doc, output);			
+			pag_ref *ref = pag_get_info(doc);
+			ref->obj = pag_make_info_dict();
+			pag_set_object(doc, *ref);
+			pag_write_document(doc, output);	
+		}
+		else if (cmd[0]=='r') {
+			pag_ref *ref = pag_get_root(doc);
+			pag_print_obj(pag_get_indirect_obj(doc, *ref));
 		}
 		else if (cmd[0]=='x') {
 			int ref;
