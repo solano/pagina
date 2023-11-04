@@ -2,7 +2,7 @@
 .SUFFIXES:
 
 CC	= cc
-CFLAGS	= -Wall -Wextra
+CFLAGS	= -Wall -Wextra -g
 mkbuilddir = @mkdir -p build; mkdir -p build/obj
 
 all: build/pagina

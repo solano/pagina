@@ -101,7 +101,10 @@ pag_repl(pag_document *doc, FILE *output)
 		}
 		else if (cmd[0]=='r') {
 			pag_ref *ref = pag_get_root(doc);
-			pag_print_obj(pag_get_indirect_obj(doc, *ref));
+			printf("Is ref NULL? %d\n", ref==NULL);
+			pag_object *obj = pag_get_indirect_obj(doc, *ref);
+			printf("Is obj NULL? %d\n", obj==NULL);
+			pag_print_obj(obj);
 		}
 		else if (cmd[0]=='x') {
 			int ref;
@@ -113,21 +116,25 @@ pag_repl(pag_document *doc, FILE *output)
 			printf("offset = %ld, gen = %d\n",
 				doc->table.table[ref].pos,
 				doc->table.table[ref].gen);
-		} else if (cmd[0]=='t') {
+		}
+		else if (cmd[0]=='t') {
 			pag_array *arr = doc->trailer_dicts;
 			do {
 				pag_print_obj(arr->val);
 				arr = arr->next;
 			} while (arr != NULL);
-		} else {
-			int ref;
-			if (sscanf(cmd, "%d\n", &ref) == 0
-			    || ref < 1 || ref > doc->len) {
+		}
+		else {
+			int iref;
+			if (sscanf(cmd, "%d\n", &iref) == 0
+			    || iref < 1 || iref > doc->len) {
 				printf("Invalid object id\n");
 				printf("\n>>> ");
 				continue;
 			}
-			pag_print_obj(doc->objs[ref-1].obj);
+			pag_ref ref = pag_make_ref(iref, 0, NULL);
+			pag_object *obj = pag_get_indirect_obj(doc, ref);
+			pag_print_obj(obj);
 		}
 		printf("\n>>> ");
 	}
