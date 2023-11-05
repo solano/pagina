@@ -93,6 +93,22 @@ pag_repl(pag_document *doc, FILE *output)
 		else if (cmd[0]=='l') {
 			printf("len = %d\n", doc->len);
 		}
+		else if (cmd[0]=='b') {
+			char s[1000] = {0};
+			sscanf(cmd, "b %s\n", s);
+			pag_object *pl = pag_make_pagelabels(s);
+			if (pl!=NULL) {
+				pag_print_obj(pl);
+				pag_ref *rootref = pag_get_root(doc);
+				pag_dict *root =
+				  pag_get_indirect_obj(doc, *rootref)->val.dict;
+				pag_dict_set(root, pag_make_name("PageLabels"),
+					pl);
+			}
+			else {
+				printf("Error\n");
+			}
+		}
 		else if (cmd[0]=='w') {
 			pag_ref *ref = pag_get_info(doc);
 			ref->obj = pag_make_info_dict();
@@ -101,9 +117,7 @@ pag_repl(pag_document *doc, FILE *output)
 		}
 		else if (cmd[0]=='r') {
 			pag_ref *ref = pag_get_root(doc);
-			printf("Is ref NULL? %d\n", ref==NULL);
 			pag_object *obj = pag_get_indirect_obj(doc, *ref);
-			printf("Is obj NULL? %d\n", obj==NULL);
 			pag_print_obj(obj);
 		}
 		else if (cmd[0]=='x') {
