@@ -101,9 +101,7 @@ pag_repl(pag_document *doc, FILE *output)
 		}
 		else if (cmd[0]=='r') {
 			pag_ref *ref = pag_get_root(doc);
-			printf("Is ref NULL? %d\n", ref==NULL);
 			pag_object *obj = pag_get_indirect_obj(doc, *ref);
-			printf("Is obj NULL? %d\n", obj==NULL);
 			pag_print_obj(obj);
 		}
 		else if (cmd[0]=='x') {
